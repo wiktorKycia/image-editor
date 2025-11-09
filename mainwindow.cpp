@@ -89,9 +89,8 @@ void MainWindow::open()
 
 void MainWindow::displayImage(const QImage &img)
 {
-    infoLabel->setPixmap(QPixmap::fromImage(image));
+    infoLabel->setPixmap(QPixmap::fromImage(img));
     std::cout << "displayed" << std::endl;
-    // infoLabel->setText("");
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
