@@ -4,6 +4,7 @@
 
 #include<string>
 #include<cstdint>
+#include<QImage>
 
 using namespace std;
 
@@ -41,6 +42,8 @@ public:
     void darken(double a);
     void contrast(double a);
     void decontrast(double a);
+
+    QImage toQImage() const;
 };
 
 #endif // PORTABLEPIXMAP_H

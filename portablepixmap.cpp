@@ -51,7 +51,20 @@ uint8_t PortablePixMap::getPixel(unsigned int x, unsigned int y, unsigned int co
     return this->pixels[y][x][color];
 }
 
-
+QImage PortablePixMap::toQImage() const {
+    QImage img(sizex, sizey, QImage::Format_RGB888);
+    for (unsigned int y = 0; y < this->sizey; ++y)
+    {
+        uchar *scanLine = img.scanLine(y); // pointer to start of row
+        for (unsigned int x = 0; x < this->sizex; ++x)
+        {
+            scanLine[x * 3 + 0] = this->pixels[y][x][0]; // R
+            scanLine[x * 3 + 1] = this->pixels[y][x][1]; // G
+            scanLine[x * 3 + 2] = this->pixels[y][x][2]; // B
+        }
+    }
+    return img;
+}
 
 void PortablePixMap::allocate_pixels()
 {

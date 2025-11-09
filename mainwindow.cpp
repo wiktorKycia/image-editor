@@ -6,10 +6,15 @@
 #include<QMenuBar>
 #include<QContextMenuEvent>
 #include<QFileDialog>
+#include<QPalette>
+#include<QImageReader>
+#include<QImage>
+#include<QMessageBox>
+#include<QPixmap>
 #include<string>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), imageLabel(new QLabel), scrollArea(new QScrollArea)
 {
     QWidget *widget = new QWidget;
     setCentralWidget(widget);
@@ -22,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
+    infoLabel->setScaledContents(false);
 
     QWidget *bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -39,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString message = tr("A context menu is avaiable by right-cliking");
     statusBar()->showMessage(message);
 
-    setWindowTitle(tr("Menus"));
+    setWindowTitle(tr("PPM editor"));
     setMinimumSize(160, 160);
     resize(1080, 720);
 }
@@ -53,10 +59,8 @@ void MainWindow::createActions()
     openAct->setStatusTip(tr("Open file"));
     connect(openAct, &QAction::triggered, this, &MainWindow::open);
 
-
     alignmentGroup = new QActionGroup(this);
     alignmentGroup->addAction(openAct);
-
 }
 
 void MainWindow::createMenus()
@@ -73,6 +77,20 @@ void MainWindow::open()
 
     PortablePixMap ppm;
     ppm.readFile(fileName);
+
+    // QImage image(QString::fromStdString(fileName));
+    // if(image.isNull())
+    // {
+    //     QMessageBox::warning(this, tr("Open Image"), tr("The Image could not be loaded."));
+    //     return;
+    // }
+    displayImage(ppm.toQImage());
+}
+
+void MainWindow::displayImage(const QImage &img)
+{
+    infoLabel->setPixmap(QPixmap::fromImage(image));
+    infoLabel->setText("");
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
