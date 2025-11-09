@@ -52,17 +52,29 @@ uint8_t PortablePixMap::getPixel(unsigned int x, unsigned int y, unsigned int co
 }
 
 QImage PortablePixMap::toQImage() const {
-    QImage img(sizex, sizey, QImage::Format_RGB888);
+    QImage img(this->sizex, this->sizey, QImage::Format_RGB888);
+    // for (unsigned int y = 0; y < this->sizey; ++y)
+    // {
+    //     uchar *scanLine = img.scanLine(y); // pointer to start of row
+    //     for (unsigned int x = 0; x < this->sizex; ++x)
+    //     {
+    //         scanLine[x * 3 + 0] = this->pixels[y][x][0]; // R
+    //         scanLine[x * 3 + 1] = this->pixels[y][x][1]; // G
+    //         scanLine[x * 3 + 2] = this->pixels[y][x][2]; // B
+    //     }
+    // }
     for (unsigned int y = 0; y < this->sizey; ++y)
     {
-        uchar *scanLine = img.scanLine(y); // pointer to start of row
         for (unsigned int x = 0; x < this->sizex; ++x)
         {
-            scanLine[x * 3 + 0] = this->pixels[y][x][0]; // R
-            scanLine[x * 3 + 1] = this->pixels[y][x][1]; // G
-            scanLine[x * 3 + 2] = this->pixels[y][x][2]; // B
+            uint8_t r = this->pixels[y][x][0];
+            uint8_t g = this->pixels[y][x][1];
+            uint8_t b = this->pixels[y][x][2];
+
+            img.setPixelColor(x, y, QColor(r, g, b));
         }
     }
+    cout << "Exported Image" << endl;
     return img;
 }
 

@@ -12,7 +12,7 @@
 #include<QMessageBox>
 #include<QPixmap>
 #include<string>
-
+#include<iostream>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), imageLabel(new QLabel), scrollArea(new QScrollArea)
 {
@@ -90,7 +90,8 @@ void MainWindow::open()
 void MainWindow::displayImage(const QImage &img)
 {
     infoLabel->setPixmap(QPixmap::fromImage(image));
-    infoLabel->setText("");
+    std::cout << "displayed" << std::endl;
+    // infoLabel->setText("");
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
