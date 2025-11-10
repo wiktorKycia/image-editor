@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "portablepixmap.h"
+#include "enlightendialog.h"
 #include<QVBoxLayout>
 #include<QStatusBar>
 #include<QActionGroup>
@@ -133,7 +134,16 @@ void MainWindow::negative()
     displayImage(ppm.toQImage());
 }
 
-void MainWindow::enlighten(){}
+void MainWindow::enlighten()
+{
+    EnlightenDialog dialog(this);
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        int light = dialog.light();
+        ppm.enlighten(static_cast<double>(light));
+        displayImage(ppm.toQImage());
+    }
+}
 void MainWindow::darken(){}
 void MainWindow::contrast(){}
 void MainWindow::decontrast(){}
