@@ -64,8 +64,28 @@ void MainWindow::createActions()
     saveAct->setStatusTip(tr("Save file"));
     connect(saveAct, &QAction::triggered, this, &MainWindow::save);
 
-    alignmentGroup = new QActionGroup(this);
-    alignmentGroup->addAction(openAct);
+
+    negativeAct = new QAction(tr("&Reverse colors"), this);
+    connect(negativeAct, &QAction::triggered, this, &MainWindow::negative);
+
+    enlightenAct = new QAction(tr("&Enlighten"), this);
+    connect(enlightenAct, &QAction::triggered, this, &MainWindow::enlighten);
+
+    darkenAct = new QAction(tr("&Darken"), this);
+    connect(darkenAct, &QAction::triggered, this, &MainWindow::darken);
+
+    contrastAct = new QAction(tr("&Contrast"), this);
+    connect(contrastAct, &QAction::triggered, this, &MainWindow::contrast);
+
+    decontrastAct = new QAction(tr("&Decontrast"), this);
+    connect(decontrastAct, &QAction::triggered, this, &MainWindow::decontrast);
+
+    colorGroup = new QActionGroup(this);
+    colorGroup->addAction(negativeAct);
+    colorGroup->addAction(enlightenAct);
+    colorGroup->addAction(darkenAct);
+    colorGroup->addAction(contrastAct);
+    colorGroup->addAction(decontrastAct);
 }
 
 void MainWindow::createMenus()
@@ -73,6 +93,9 @@ void MainWindow::createMenus()
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
+
+    colorsMenu = menuBar()->addMenu(tr("&Colors"));
+    colorsMenu->addActions(colorGroup->actions());
 }
 
 void MainWindow::open()
@@ -99,10 +122,21 @@ void MainWindow::displayImage(const QImage &img)
 
 void MainWindow::save()
 {
-    std::string fileName = QFileDialog::getSaveFileName(this, tr("Save image"), "~", tr("Image Files (*.ppm)")).toUtf8().constData();
+    std::string fileName = QFileDialog::getSaveFileName(this, tr("Save image"), "output.ppm", tr("Image Files (*.ppm)")).toUtf8().constData();
 
     ppm.writeFilePPM(fileName);
 }
+
+void MainWindow::negative()
+{
+    ppm.convert_to_negative();
+    displayImage(ppm.toQImage());
+}
+
+void MainWindow::enlighten(){}
+void MainWindow::darken(){}
+void MainWindow::contrast(){}
+void MainWindow::decontrast(){}
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {

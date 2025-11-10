@@ -1,11 +1,10 @@
-#include<QLabel>
-#include "portablepixmap.h"
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QScrollArea>
+#include <QLabel>
+#include "portablepixmap.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +23,11 @@ protected:
 private slots:
     void open();
     void save();
+    void negative();
+    void enlighten();
+    void darken();
+    void contrast();
+    void decontrast();
 
 private:
     PortablePixMap ppm;
@@ -33,10 +37,18 @@ private:
     void displayImage(const QImage &img);
 
     QMenu *fileMenu;
-    QMenu *colorsMenu;
-    QActionGroup *alignmentGroup;
+
     QAction *openAct;
     QAction *saveAct;
+
+
+    QMenu *colorsMenu;
+    QActionGroup *colorGroup;
+    QAction *negativeAct;
+    QAction *enlightenAct;
+    QAction *darkenAct;
+    QAction *contrastAct;
+    QAction *decontrastAct;
 
     QLabel *infoLabel;
 
