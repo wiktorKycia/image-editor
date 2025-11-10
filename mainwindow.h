@@ -1,4 +1,5 @@
 #include<QLabel>
+#include "portablepixmap.h"
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -22,8 +23,11 @@ protected:
 
 private slots:
     void open();
+    void save();
 
 private:
+    PortablePixMap ppm;
+
     void createActions();
     void createMenus();
     void displayImage(const QImage &img);
@@ -32,6 +36,7 @@ private:
     QMenu *colorsMenu;
     QActionGroup *alignmentGroup;
     QAction *openAct;
+    QAction *saveAct;
 
     QLabel *infoLabel;
 

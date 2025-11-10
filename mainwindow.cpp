@@ -59,6 +59,11 @@ void MainWindow::createActions()
     openAct->setStatusTip(tr("Open file"));
     connect(openAct, &QAction::triggered, this, &MainWindow::open);
 
+    saveAct = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSave), tr("&Save"), this);
+    saveAct->setShortcuts(QKeySequence::Save);
+    saveAct->setStatusTip(tr("Save file"));
+    connect(saveAct, &QAction::triggered, this, &MainWindow::save);
+
     alignmentGroup = new QActionGroup(this);
     alignmentGroup->addAction(openAct);
 }
@@ -67,15 +72,14 @@ void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(openAct);
+    fileMenu->addAction(saveAct);
 }
 
 void MainWindow::open()
 {
-    infoLabel->setText(tr("Invoked <b>File|open</b>"));
     std::string fileName = QFileDialog::getOpenFileName(this, tr("Open image"), "~", tr("Image Files (*.ppm)")).toUtf8().constData();
     // można też .toStdString();
 
-    PortablePixMap ppm;
     ppm.readFile(fileName);
 
     // QImage image(QString::fromStdString(fileName));
@@ -91,6 +95,13 @@ void MainWindow::displayImage(const QImage &img)
 {
     infoLabel->setPixmap(QPixmap::fromImage(img));
     std::cout << "displayed" << std::endl;
+}
+
+void MainWindow::save()
+{
+    std::string fileName = QFileDialog::getSaveFileName(this, tr("Save image"), "~", tr("Image Files (*.ppm)")).toUtf8().constData();
+
+    ppm.writeFilePPM(fileName);
 }
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
