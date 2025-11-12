@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "portablepixmap.h"
-#include "enlightendialog.h"
+#include "sliderdialog.h"
 #include<QVBoxLayout>
 #include<QStatusBar>
 #include<QActionGroup>
@@ -136,16 +136,34 @@ void MainWindow::negative()
 
 void MainWindow::enlighten()
 {
-    EnlightenDialog dialog(this);
+    SliderDialog dialog(this, tr("Adjust lightness"), tr("Light factor:"), 0.0, 10.0, 0.5, 1.0);
     if(dialog.exec() == QDialog::Accepted)
     {
-        double light = dialog.light();
-        ppm.enlighten(light);
+        double value = dialog.get_value();
+        ppm.enlighten(value);
         displayImage(ppm.toQImage());
     }
 }
-void MainWindow::darken(){}
-void MainWindow::contrast(){}
+void MainWindow::darken()
+{
+    SliderDialog dialog(this, tr("Adjust darkness"), tr("Dark factor:"), 0.0, 10.0, 0.5, 1.0);
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        double value = dialog.get_value();
+        ppm.darken(value);
+        displayImage(ppm.toQImage());
+    }
+}
+void MainWindow::contrast()
+{
+    SliderDialog dialog(this, tr("Adjust contrast"), tr("Contrast factor:"), 0.0, 1.0, 0.01, 0.06);
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        double value = dialog.get_value();
+        ppm.contrast(value);
+        displayImage(ppm.toQImage());
+    }
+}
 void MainWindow::decontrast(){}
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)

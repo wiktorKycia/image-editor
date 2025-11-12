@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-SliderDialog::SliderDialog(QWidget *parent, QString windowTitle, QString sliderLabelText, double _min, double _max, double _step)
+SliderDialog::SliderDialog(QWidget *parent, QString windowTitle, QString sliderLabelText, double _min, double _max, double _step, double default_value)
     : QDialog{parent}
 {
     setWindowTitle(windowTitle);
@@ -14,7 +14,7 @@ SliderDialog::SliderDialog(QWidget *parent, QString windowTitle, QString sliderL
 
     slider = new QSlider(Qt::Horizontal);
     slider->setRange(0, (_max - _min) / _step);
-    slider->setValue(static_cast<int>(_step));
+    slider->setValue(static_cast<int>(default_value));
 
     this->createButtons(sliderLabelText);
 }
