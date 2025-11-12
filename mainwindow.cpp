@@ -139,8 +139,8 @@ void MainWindow::enlighten()
     EnlightenDialog dialog(this);
     if(dialog.exec() == QDialog::Accepted)
     {
-        int light = dialog.light();
-        ppm.enlighten(static_cast<double>(light));
+        double light = dialog.light();
+        ppm.enlighten(light);
         displayImage(ppm.toQImage());
     }
 }
