@@ -78,15 +78,15 @@ void MainWindow::createActions()
     contrastAct = new QAction(tr("&Contrast"), this);
     connect(contrastAct, &QAction::triggered, this, &MainWindow::contrast);
 
-    decontrastAct = new QAction(tr("&Decontrast"), this);
-    connect(decontrastAct, &QAction::triggered, this, &MainWindow::decontrast);
+    // decontrastAct = new QAction(tr("&Decontrast"), this);
+    // connect(decontrastAct, &QAction::triggered, this, &MainWindow::decontrast);
 
     colorGroup = new QActionGroup(this);
     colorGroup->addAction(negativeAct);
     colorGroup->addAction(enlightenAct);
     colorGroup->addAction(darkenAct);
     colorGroup->addAction(contrastAct);
-    colorGroup->addAction(decontrastAct);
+    // colorGroup->addAction(decontrastAct);
 }
 
 void MainWindow::createMenus()

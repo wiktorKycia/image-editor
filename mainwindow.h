@@ -27,7 +27,6 @@ private slots:
     void enlighten();
     void darken();
     void contrast();
-    void decontrast();
 
 private:
     PortablePixMap ppm;
@@ -48,7 +47,6 @@ private:
     QAction *enlightenAct;
     QAction *darkenAct;
     QAction *contrastAct;
-    QAction *decontrastAct;
 
     QLabel *infoLabel;
 
