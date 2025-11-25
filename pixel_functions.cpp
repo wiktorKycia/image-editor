@@ -38,6 +38,10 @@ namespace pixel_functions
         return static_cast<uint8_t>(round(255.0 * (1.0 / (1.0 + pow(e, -a * (color - 127.5))))));
     }
 
+
+
+
+
     /*
     lower a = better effect
     */

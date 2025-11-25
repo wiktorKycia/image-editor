@@ -11,6 +11,5 @@ namespace pixel_functions
     uint8_t enlighten(uint8_t color, double a = 1.5);
     uint8_t darken(uint8_t color, double a = 1.5);
     uint8_t contrast(uint8_t color, double a = 0.062622429);
-    uint8_t decontrast(uint8_t color, double a = 100.0);
 }
 #endif // PIXEL_FUNCTIONS_H
