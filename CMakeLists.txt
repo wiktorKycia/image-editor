@@ -30,6 +30,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
         pixel_functions.cpp
         enlightendialog.h enlightendialog.cpp
         sliderdialog.h sliderdialog.cpp
+        pixels.h pixels.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET mygmip APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
