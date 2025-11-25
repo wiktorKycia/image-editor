@@ -3,12 +3,14 @@
 
 #include "portablepixmap.h"
 #include "pixel_functions.h"
+#include "pixels.h"
 
 PortablePixMap::PortablePixMap()
 {
     sizex = 0;
     sizey = 0;
     pixels = nullptr;
+    pixelCalculator = new Pixels();
 }
 
 PortablePixMap::PortablePixMap(unsigned int _sizex, unsigned int _sizey)
@@ -44,6 +46,7 @@ PortablePixMap::~PortablePixMap()
     sizex = 0;
     sizey = 0;
     delete pixels;
+    delete pixelCalculator;
 }
 
 uint8_t PortablePixMap::getPixel(unsigned int x, unsigned int y, unsigned int color) const
@@ -513,12 +516,12 @@ void PortablePixMap::convert_to_negative()
         {
             for(uint8_t color = 0; color < this->numberOfColors; color++)
             {
-                this->pixels[i][j][color] = pixel_functions::negativ(this->pixels[i][j][color]);
+                this->pixels[i][j][color] = this->pixelCalculator->reverseColor(this->pixels[i][j][color]);
             }
         }
     }
 }
-void PortablePixMap::enlighten(double a = 1.5)
+void PortablePixMap::changeLightness(double a = 0) // 0 has no effect
 {
     for(unsigned int i = 0; i < this->sizey; i++)
     {
@@ -526,12 +529,13 @@ void PortablePixMap::enlighten(double a = 1.5)
         {
             for(uint8_t color = 0; color < this->numberOfColors; color++)
             {
-                this->pixels[i][j][color] = pixel_functions::enlighten(this->pixels[i][j][color], a);
+                this->pixels[i][j][color] = this->pixelCalculator->changeLightness(this->pixels[i][j][color], a);
             }
         }
     }
 }
-void PortablePixMap::darken(double a = 1.5)
+
+void PortablePixMap::changeContrast(double a = 0) // 0 has no effect
 {
     for(unsigned int i = 0; i < this->sizey; i++)
     {
@@ -539,33 +543,7 @@ void PortablePixMap::darken(double a = 1.5)
         {
             for(uint8_t color = 0; color < this->numberOfColors; color++)
             {
-                this->pixels[i][j][color] = pixel_functions::darken(this->pixels[i][j][color], a);
-            }
-        }
-    }
-}
-void PortablePixMap::contrast(double a = 0.062622429)
-{
-    for(unsigned int i = 0; i < this->sizey; i++)
-    {
-        for(unsigned int j = 0; j < this->sizex; j++)
-        {
-            for(uint8_t color = 0; color < this->numberOfColors; color++)
-            {
-                this->pixels[i][j][color] = pixel_functions::contrast(this->pixels[i][j][color], a);
-            }
-        }
-    }
-}
-void PortablePixMap::decontrast(double a = 100.0)
-{
-    for(unsigned int i = 0; i < this->sizey; i++)
-    {
-        for(unsigned int j = 0; j < this->sizex; j++)
-        {
-            for(uint8_t color = 0; color < this->numberOfColors; color++)
-            {
-                this->pixels[i][j][color] = pixel_functions::decontrast(this->pixels[i][j][color], a);
+                this->pixels[i][j][color] = this->pixelCalculator->changeContrast(this->pixels[i][j][color], a);
             }
         }
     }

@@ -5,6 +5,7 @@
 #include<string>
 #include<cstdint>
 #include<QImage>
+#include "pixels.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ class PortablePixMap
     static const int numberOfColors = {3};
     unsigned int sizex, sizey;
     uint8_t ***pixels;
+
+    Pixels *pixelCalculator;
 
     void allocate_pixels();
 
@@ -38,10 +41,8 @@ public:
     void writeBinaryFilePBM(string fileName);
 
     void convert_to_negative();
-    void enlighten(double a);
-    void darken(double a);
-    void contrast(double a);
-    void decontrast(double a);
+    void changeLightness(double a);
+    void changeContrast(double a);
 
     QImage toQImage() const;
 };
