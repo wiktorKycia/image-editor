@@ -11,20 +11,25 @@ PortablePixMap::PortablePixMap()
     pixels = nullptr;
     pixelsCopy = nullptr;
     pixelCalculator = new Pixels();
-    filterSize = 1;
+    filter = new Filter();
 }
 
-PortablePixMap::PortablePixMap(unsigned int _sizex, unsigned int _sizey)
+PortablePixMap::PortablePixMap(unsigned int _sizex, unsigned int _sizey, unsigned int filterSize)
 {
     sizex = _sizex;
     sizey = _sizey;
+    pixelCalculator = new Pixels();
+    filter = new Filter(filterSize);
     this->allocate_pixels();
+    this->allocate_filter();
 }
 
 PortablePixMap::PortablePixMap(const PortablePixMap &obj)
 {
     sizex = obj.sizex;
     sizey = obj.sizey;
+    pixelCalculator = new Pixels();
+    filter = new Filter(obj.filter->size);
     pixels = new uint8_t**[sizey];
 
     for(unsigned int i = 0; i < sizey; i++)
@@ -100,8 +105,8 @@ void PortablePixMap::allocate_pixels()
 
 void PortablePixMap::allocate_filter()
 {
-    int size_x = this->sizex + 2*(this->filterSize);
-    int size_y = this->sizey + 2*(this->filterSize);
+    int size_x = this->sizex + 2*(this->filter->size);
+    int size_y = this->sizey + 2*(this->filter->size);
     this->pixelsCopy = new uint8_t**[size_y];
 
     for (unsigned int i = 0; i < size_y; i++)

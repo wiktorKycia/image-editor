@@ -6,6 +6,7 @@
 #include<cstdint>
 #include<QImage>
 #include "pixels.h"
+#include "filter.h"
 
 using namespace std;
 
@@ -15,8 +16,8 @@ class PortablePixMap
     unsigned int sizex, sizey;
     uint8_t ***pixels;
     uint8_t ***pixelsCopy;
-    unsigned int filterSize;
 
+    Filter *filter;
     Pixels *pixelCalculator;
 
     void allocate_pixels();
@@ -30,7 +31,7 @@ public:
     double currentContrastFactor={0};
 
     PortablePixMap();
-    PortablePixMap(unsigned int _sizex, unsigned int _sizey);
+    PortablePixMap(unsigned int _sizex, unsigned int _sizey, unsigned int filterSize = 1);
     PortablePixMap(const PortablePixMap &obj);
     ~PortablePixMap();
 

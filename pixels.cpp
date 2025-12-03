@@ -32,16 +32,16 @@ uint8_t Pixels::reverseColor(uint8_t color)
 
 uint8_t Pixels::changeLightness(uint8_t color, double a)
 {
-    std::cout << "changing lightness in pixel calculator" << std::endl;
+    // std::cout << "changing lightness in pixel calculator" << std::endl;
     // If the 'a' parameter is the same as before we return the value from the hashset
     if(this->a_lights == a)
     {
-        std::cout << "the \'a\' param is the same, returning from hashset" << std::endl;
+        // std::cout << "the \'a\' param is the same, returning from hashset" << std::endl;
         return this->lights[color];
     }
     else // if the 'a' parameter is different, we recalculate the 255 color values and return
     {
-        std::cout <<"lightness factor:" <<a << std::endl;
+        // std::cout <<"lightness factor:" <<a << std::endl;
         this->a_lights = a;
 
         // do the calculations
