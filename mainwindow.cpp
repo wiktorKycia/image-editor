@@ -69,20 +69,16 @@ void MainWindow::createActions()
     negativeAct = new QAction(tr("&Reverse colors"), this);
     connect(negativeAct, &QAction::triggered, this, &MainWindow::negative);
 
-    enlightenAct = new QAction(tr("&Enlighten"), this);
-    connect(enlightenAct, &QAction::triggered, this, &MainWindow::enlighten);
+    changeLightnessAct = new QAction(tr("&Enlighten"), this);
+    connect(changeLightnessAct, &QAction::triggered, this, &MainWindow::changeLightness);
 
-    darkenAct = new QAction(tr("&Darken"), this);
-    connect(darkenAct, &QAction::triggered, this, &MainWindow::darken);
-
-    contrastAct = new QAction(tr("&Contrast"), this);
-    connect(contrastAct, &QAction::triggered, this, &MainWindow::contrast);
+    changeContrastAct = new QAction(tr("&Contrast"), this);
+    connect(changeContrastAct, &QAction::triggered, this, &MainWindow::changeContrast);
 
     colorGroup = new QActionGroup(this);
     colorGroup->addAction(negativeAct);
-    colorGroup->addAction(enlightenAct);
-    colorGroup->addAction(darkenAct);
-    colorGroup->addAction(contrastAct);
+    colorGroup->addAction(changeLightnessAct);
+    colorGroup->addAction(changeContrastAct);
 }
 
 void MainWindow::createMenus()
@@ -130,33 +126,25 @@ void MainWindow::negative()
     displayImage(ppm.toQImage());
 }
 
-void MainWindow::enlighten()
+void MainWindow::changeLightness()
 {
-    SliderDialog dialog(this, tr("Adjust lightness"), tr("Light factor:"), 0.0, 10.0, 0.5, 1.0);
+    std::cout << "changing light in mainwindow" << std::endl;
+    SliderDialog dialog(this, tr("Adjust lightness"), tr("Lightness factor:"), -127.5, 127.5, 0.5, ppm.currentLightnessFactor);
     if(dialog.exec() == QDialog::Accepted)
     {
         double value = dialog.get_value();
-        ppm.enlighten(value);
+        ppm.changeLightness(value);
         displayImage(ppm.toQImage());
     }
 }
-void MainWindow::darken()
+
+void MainWindow::changeContrast()
 {
-    SliderDialog dialog(this, tr("Adjust darkness"), tr("Dark factor:"), 0.0, 10.0, 0.5, 1.0);
+    SliderDialog dialog(this, tr("Adjust contrast"), tr("Contrast factor:"), -127.5, 127.5, 0.5, ppm.currentContrastFactor);
     if(dialog.exec() == QDialog::Accepted)
     {
         double value = dialog.get_value();
-        ppm.darken(value);
-        displayImage(ppm.toQImage());
-    }
-}
-void MainWindow::contrast()
-{
-    SliderDialog dialog(this, tr("Adjust contrast"), tr("Contrast factor:"), 0.0, 1.0, 0.01, 0.06);
-    if(dialog.exec() == QDialog::Accepted)
-    {
-        double value = dialog.get_value();
-        ppm.contrast(value);
+        ppm.changeContrast(value);
         displayImage(ppm.toQImage());
     }
 }

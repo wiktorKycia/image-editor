@@ -1,6 +1,7 @@
 #include "sliderdialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include<iostream>
 
 SliderDialog::SliderDialog(QWidget *parent, QString windowTitle, QString sliderLabelText, double _min, double _max, double _step, double default_value)
     : QDialog{parent}
@@ -13,8 +14,14 @@ SliderDialog::SliderDialog(QWidget *parent, QString windowTitle, QString sliderL
     this->_step = _step;
 
     slider = new QSlider(Qt::Horizontal);
-    slider->setRange(0, (_max - _min) / _step);
+    slider->setRange(_min, _max);
     slider->setValue(static_cast<int>(default_value));
+
+    std::cout << "Creating slider: \n";
+    std::cout << "min=" << _min << std::endl;
+    std::cout << "max=" << _max << std::endl;
+    std::cout << "step=" << _step << std::endl;
+    std::cout << "default=" << default_value<< std::endl;
 
     this->createButtons(sliderLabelText);
 }
@@ -48,5 +55,7 @@ inline void SliderDialog::createButtons(QString labelText)
 
 double SliderDialog::get_value() const
 {
-    return _min + slider->value() * _step;
+    std::cout << "The slider value: " << slider->value() << std::endl;
+
+    return slider->value();
 }

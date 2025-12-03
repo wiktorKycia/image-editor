@@ -2,7 +2,6 @@
 #include<fstream>
 
 #include "portablepixmap.h"
-#include "pixel_functions.h"
 #include "pixels.h"
 
 PortablePixMap::PortablePixMap()
@@ -10,7 +9,9 @@ PortablePixMap::PortablePixMap()
     sizex = 0;
     sizey = 0;
     pixels = nullptr;
+    pixelsCopy = nullptr;
     pixelCalculator = new Pixels();
+    filterSize = 1;
 }
 
 PortablePixMap::PortablePixMap(unsigned int _sizex, unsigned int _sizey)
@@ -46,6 +47,7 @@ PortablePixMap::~PortablePixMap()
     sizex = 0;
     sizey = 0;
     delete pixels;
+    delete pixelsCopy;
     delete pixelCalculator;
 }
 
@@ -56,7 +58,7 @@ uint8_t PortablePixMap::getPixel(unsigned int x, unsigned int y, unsigned int co
 
 QImage PortablePixMap::toQImage() const {
     QImage img(this->sizex, this->sizey, QImage::Format_RGB888);
-    // for (unsigned int y = 0; y < this->sizey; ++y)
+    /* for (unsigned int y = 0; y < this->sizey; ++y)
     // {
     //     uchar *scanLine = img.scanLine(y); // pointer to start of row
     //     for (unsigned int x = 0; x < this->sizex; ++x)
@@ -65,7 +67,7 @@ QImage PortablePixMap::toQImage() const {
     //         scanLine[x * 3 + 1] = this->pixels[y][x][1]; // G
     //         scanLine[x * 3 + 2] = this->pixels[y][x][2]; // B
     //     }
-    // }
+     }*/
     for (unsigned int y = 0; y < this->sizey; ++y)
     {
         for (unsigned int x = 0; x < this->sizex; ++x)
@@ -92,6 +94,23 @@ void PortablePixMap::allocate_pixels()
         for(unsigned int j = 0; j < this->sizex; j++)
         {
             this->pixels[i][j] = new uint8_t[numberOfColors]{0,0,0};
+        }
+    }
+}
+
+void PortablePixMap::allocate_filter()
+{
+    int size_x = this->sizex + 2*(this->filterSize);
+    int size_y = this->sizey + 2*(this->filterSize);
+    this->pixelsCopy = new uint8_t**[size_y];
+
+    for (unsigned int i = 0; i < size_y; i++)
+    {
+        this->pixelsCopy[i] = new uint8_t*[size_x];
+
+        for(unsigned int j = 0; j < size_x; j++)
+        {
+            this->pixelsCopy[i][j] = new uint8_t[this->numberOfColors]{0,0,0};
         }
     }
 }
@@ -123,7 +142,6 @@ void PortablePixMap::readFile(string fileName)
         cout << "The file is not a ppm format!" << endl;
     }
 }
-
 void PortablePixMap::readAsciiFile(string fileName)
 {
     ifstream file;
@@ -241,7 +259,6 @@ void PortablePixMap::readBinaryFile(string fileName)
 
     file.close();
 }
-
 void PortablePixMap::writeFilePPM(string fileName)
 {
     ofstream file;
@@ -363,7 +380,6 @@ void PortablePixMap::writeFilePBM(string fileName)
     }
     file.close();
 }
-
 void PortablePixMap::writeBinaryFilePPM(string fileName)
 {
     ofstream file;
@@ -393,8 +409,6 @@ void PortablePixMap::writeBinaryFilePPM(string fileName)
 
     file.close();
 }
-
-
 void PortablePixMap::writeBinaryFilePGM(string fileName)
 {
     ofstream file;
@@ -523,6 +537,8 @@ void PortablePixMap::convert_to_negative()
 }
 void PortablePixMap::changeLightness(double a = 0) // 0 has no effect
 {
+    std::cout << "changing lightness in ppm" << std::endl;
+    this->currentLightnessFactor = a;
     for(unsigned int i = 0; i < this->sizey; i++)
     {
         for(unsigned int j = 0; j < this->sizex; j++)

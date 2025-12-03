@@ -14,10 +14,10 @@ public:
         QWidget *parent = nullptr,
         QString windowTitle = tr("slider"),
         QString sliderLabelText = tr("set value"),
-        double _max = 100.0,
-        double _min = 0.0,
-        double _step = 10.0,
-        double default_value = 1.0);
+        double _min = -127.0,
+        double _max = 127.0,
+        double _step = 0.5,
+        double default_value = 0.0);
 
     double get_value() const;
 

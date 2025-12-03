@@ -14,15 +14,21 @@ class PortablePixMap
     static const int numberOfColors = {3};
     unsigned int sizex, sizey;
     uint8_t ***pixels;
+    uint8_t ***pixelsCopy;
+    unsigned int filterSize;
 
     Pixels *pixelCalculator;
 
     void allocate_pixels();
+    void allocate_filter();
 
     void readAsciiFile(string fileName);
     void readBinaryFile(string fileName);
 
 public:
+    double currentLightnessFactor={0};
+    double currentContrastFactor={0};
+
     PortablePixMap();
     PortablePixMap(unsigned int _sizex, unsigned int _sizey);
     PortablePixMap(const PortablePixMap &obj);

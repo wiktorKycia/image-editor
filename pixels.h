@@ -18,7 +18,6 @@ private:
     uint8_t *lights;
     uint8_t *contrasts;
 
-    void fillNegativesHashset();
     void fillLightsHashset(double a);
     void fillContrastHashset(double a);
 

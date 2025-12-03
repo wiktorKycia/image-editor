@@ -24,9 +24,8 @@ private slots:
     void open();
     void save();
     void negative();
-    void enlighten();
-    void darken();
-    void contrast();
+    void changeLightness();
+    void changeContrast();
 
 private:
     PortablePixMap ppm;
@@ -44,9 +43,8 @@ private:
     QMenu *colorsMenu;
     QActionGroup *colorGroup;
     QAction *negativeAct;
-    QAction *enlightenAct;
-    QAction *darkenAct;
-    QAction *contrastAct;
+    QAction *changeLightnessAct;
+    QAction *changeContrastAct;
 
     QLabel *infoLabel;
 
